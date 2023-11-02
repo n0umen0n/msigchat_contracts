@@ -1,0 +1,298 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "chats",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "permission",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "community_profile_img_url",
+                    "type": "string"
+                },
+                {
+                    "name": "community_background_img_url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "delapproval",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "approved_to_delete",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "delchat",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "delmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "delmessages",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "number_of_messages",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "name": "deloffon",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "delon",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "delprofile",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "messages",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "profile",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "name_in_chat",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "profile_img_url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "sendmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "setchat",
+            "base": "",
+            "fields": [
+                {
+                    "name": "adder",
+                    "type": "name"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "permission",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "community_profile_img_url",
+                    "type": "string"
+                },
+                {
+                    "name": "community_background_img_url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "setprofile",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "name_in_chat",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "profile_img_url",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "delchat",
+            "type": "delchat",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "delmessage",
+            "type": "delmessage",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "delmessages",
+            "type": "delmessages",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "deloffon",
+            "type": "deloffon",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "delprofile",
+            "type": "delprofile",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "sendmessage",
+            "type": "sendmessage",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setchat",
+            "type": "setchat",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setprofile",
+            "type": "setprofile",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "chats",
+            "type": "chats",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "delapproval",
+            "type": "delapproval",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "messages",
+            "type": "messages",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "profile",
+            "type": "profile",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "action_results": []
+}
