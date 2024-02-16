@@ -47,6 +47,16 @@ public:
     };
     typedef multi_index<"messages"_n, messages> messages_table;
 
+    TABLE messagestb {
+        uint64_t id;
+        string message;
+        name user;
+        time_point_sec message_time;
+
+        uint64_t primary_key() const { return id; }
+    };
+    typedef multi_index<"messagestb"_n, messagestb> messages_tb;
+
     TABLE delapproval {
         name chat_account;
         bool approved_to_delete;
@@ -61,9 +71,13 @@ public:
     ACTION setchat(name adder, name chat_account, string permission, string description, string community_profile_img_url, string community_background_img_url);
     ACTION delchat(name chat_account);
     ACTION sendmessage(string message, name user, name chat_account);
+    ACTION sendmsg(string message, name user, name chat_account);
     ACTION delmessage(name user, uint64_t message_id, name chat_account);
     ACTION delmessages(name chat_account, uint16_t number_of_messages);
     ACTION deloffon(name chat_account, bool delon);
+    ACTION migrate();
+    ACTION cleardata();
+    ACTION signin(string memo);
 
 
 private:

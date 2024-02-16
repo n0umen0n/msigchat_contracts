@@ -1,0 +1,7 @@
+dune -- cdt-cpp -abigen /host/Users/vlad/Desktop/msigchat/msigchat.cpp -o /host/Users/vlad/Desktop/msigchat/msigchat.wasm
+
+cleos -u https://api.wax.alohaeos.com set contract chat /Users/vlad/Desktop/msigchat msigchat.wasm msigchat.abi 
+
+cleos -u https://api.wax.alohaeos.com set contract test.chat /Users/vlad/Desktop/msigchat msigchat.wasm msigchat.abi 
+
+tere

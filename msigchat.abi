@@ -30,6 +30,11 @@
             ]
         },
         {
+            "name": "cleardata",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "delapproval",
             "base": "",
             "fields": [
@@ -128,6 +133,33 @@
             ]
         },
         {
+            "name": "messagestb",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_time",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "migrate",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "profile",
             "base": "",
             "fields": [
@@ -151,6 +183,24 @@
         },
         {
             "name": "sendmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "sendmsg",
             "base": "",
             "fields": [
                 {
@@ -218,9 +268,24 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "signin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
         }
     ],
     "actions": [
+        {
+            "name": "cleardata",
+            "type": "cleardata",
+            "ricardian_contract": ""
+        },
         {
             "name": "delchat",
             "type": "delchat",
@@ -247,8 +312,18 @@
             "ricardian_contract": ""
         },
         {
+            "name": "migrate",
+            "type": "migrate",
+            "ricardian_contract": ""
+        },
+        {
             "name": "sendmessage",
             "type": "sendmessage",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "sendmsg",
+            "type": "sendmsg",
             "ricardian_contract": ""
         },
         {
@@ -259,6 +334,11 @@
         {
             "name": "setprofile",
             "type": "setprofile",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "signin",
+            "type": "signin",
             "ricardian_contract": ""
         }
     ],
@@ -280,6 +360,13 @@
         {
             "name": "messages",
             "type": "messages",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "messagestb",
+            "type": "messagestb",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

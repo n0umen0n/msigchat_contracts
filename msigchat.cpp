@@ -20,7 +20,7 @@ void msigchat::setprofile(name user, string name_in_chat, string description, st
 
     if(itr == profiles.end())
     {
-        profiles.emplace(user, [&](auto& row) {
+        profiles.emplace(_self, [&](auto& row) {
             row.user = user;
             row.name_in_chat = name_in_chat;
             row.description = description;
@@ -57,7 +57,7 @@ void msigchat::setchat(name adder, name chat_account, string permission, string 
     {
         require_auth(adder);
 
-        chats.emplace(adder, [&](auto& row) {
+        chats.emplace(_self, [&](auto& row) {
             row.chat_account = chat_account;
             row.permission = permission;
             row.description = description;
@@ -108,11 +108,86 @@ void msigchat::sendmessage(string message, name user, name chat_account)
     });
 }
 
+void msigchat::sendmsg(string message, name user, name chat_account) 
+{
+    require_auth(_self);
+    
+    check(message.size() > 0 && message.size() < 1000, "Invalid message length");
+
+    messages_tb messages(get_self(), chat_account.value);
+    messages.emplace(_self, [&](auto& row) {
+        row.id = messages.available_primary_key();
+        row.message = message;
+        row.user = user;
+        row.message_time = current_time_point();
+    });
+}
+
+void msigchat::cleardata() {
+    require_auth(_self); // Only the contract itself can run this action
+
+    // List of known communities
+    vector<name> communities = {
+        "allcustodian"_n, "eyeke.dac"_n, "ipfmultisig2"_n, "ipfmultisig3"_n,
+        "kavian.dac"_n, "magor.dac"_n, "msigchatdemo"_n, "naron.dac"_n,
+        "neri.dac"_n, "veles.dac"_n
+    };
+
+    // Loop through each community and clear data
+    for (const auto& community : communities) {
+        messages_tb messages(_self, community.value);
+
+        // Delete each entry in the table
+        auto itr = messages.begin();
+        while (itr != messages.end()) {
+            itr = messages.erase(itr);
+        }
+    }
+}
+
+void msigchat::migrate() {
+    require_auth(_self); // Only the contract itself can run this migration
+
+    // List of known communities
+    vector<name> communities = {
+        "allcustodian"_n, "eyeke.dac"_n, "ipfmultisig2"_n, "ipfmultisig3"_n,
+        "kavian.dac"_n, "magor.dac"_n, "msigchatdemo"_n, "naron.dac"_n,
+        "neri.dac"_n, "veles.dac"_n
+    };
+
+ // Loop through each community
+    for (const auto& community : communities) {
+        // Access the old and new tables scoped by the community
+        messages_table old_messages(_self, community.value);
+        messages_tb new_messages(_self, community.value);
+
+        // Copy all old message IDs to a vector
+        vector<uint64_t> ids;
+        for (auto itr = old_messages.begin(); itr != old_messages.end(); itr++) {
+            ids.push_back(itr->id);
+        }
+
+        // Iterate over the vector in reverse
+        for (auto itr = ids.rbegin(); itr != ids.rend(); itr++) {
+            auto old_itr = old_messages.find(*itr);
+            if (old_itr != old_messages.end()) {
+                // Insert this entry into the new table
+                new_messages.emplace(_self, [&](auto& msg) {
+                    msg.id = old_itr->id;
+                    msg.message = old_itr->message;
+                    msg.user = old_itr->user;
+                    // msg.message_time will be default-initialized to epoch time 0
+                });
+            }
+        }
+    }
+}
+
 void msigchat::delmessage(name user, uint64_t message_id, name chat_account) 
 {
     require_auth_either(user, _self);
 
-    messages_table messages(get_self(), chat_account.value);
+    messages_tb messages(get_self(), chat_account.value);
     auto msg_itr = messages.find(message_id);
     check(msg_itr != messages.end(), "Message not found");
     check(msg_itr->user == user, "Only the author can delete this message");
@@ -129,7 +204,7 @@ void msigchat::delmessages(name chat_account, uint16_t number_of_messages)
     check(approval_itr != approvals.end(), "Chat account not found in approvals");
     check(approval_itr->approved_to_delete, "Deletion not approved for this chat");
 
-    messages_table messages(get_self(), chat_account.value);
+    messages_tb messages(get_self(), chat_account.value);
 
     for (int i = 0; i < number_of_messages; i++) 
     {
@@ -158,6 +233,11 @@ void msigchat::deloffon(name chat_account, bool delon)
             row.approved_to_delete = delon;
         });
     }
+}
+
+void msigchat::signin(string memo) 
+{
+
 }
 
 void msigchat::require_auth_either(name user1, name user2) {
