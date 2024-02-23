@@ -17,6 +17,31 @@ CONTRACT msigchat : public contract
 {
 public:
 
+
+//PHASE 1 TABLE
+
+    TABLE chats {
+        name chat_account;
+        string permission;
+        string description;
+        string community_profile_img_url;
+        string community_background_img_url;
+
+        uint64_t primary_key() const { return chat_account.value; }
+    };
+    typedef multi_index<"chats"_n, chats> chats_table;
+
+
+    TABLE messages {
+        uint64_t id;
+        string message;
+        name user;
+
+        uint64_t primary_key() const { return id; }
+    };
+    typedef multi_index<"messages"_n, messages> messages_table;
+
+
     TABLE chats1 {
         name chat_account;
         string permission;
@@ -29,21 +54,6 @@ public:
     };
     typedef multi_index<"chats1"_n, chats1> chats1_table;
 
-    TABLE profile {
-        name user;
-        string name_in_chat;
-        string description;
-        string profile_img_url;
-
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef multi_index<"profile"_n, profile> profile_table;
-
-    struct emoji_reaction {
-        uint16_t emoji_id;
-        uint64_t count;
-        vector<name> users; // Added to store the users who left the emoji
-    };
 
     TABLE messagestb2 {
         uint64_t id;
@@ -56,6 +66,23 @@ public:
         uint64_t primary_key() const { return id; }
     };
     typedef multi_index<"messagestb2"_n, messagestb2> messages2_tb;
+
+    struct emoji_reaction {
+        uint16_t emoji_id;
+        uint64_t count;
+        vector<name> users; // Added to store the users who left the emoji
+    };
+
+    TABLE profile {
+        name user;
+        string name_in_chat;
+        string description;
+        string profile_img_url;
+
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef multi_index<"profile"_n, profile> profile_table;
+
 
 
     TABLE locproposal {

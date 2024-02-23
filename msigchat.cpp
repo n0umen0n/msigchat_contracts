@@ -55,6 +55,7 @@ void msigchat::setchat(name adder, name chat_account, string permission, string 
 
     if(itr == chats.end()) 
     {
+        //Is it adder or _self
         require_auth(adder);
 
         chats.emplace(_self, [&](auto& row) {
