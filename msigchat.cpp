@@ -50,7 +50,7 @@ void msigchat::setchat(name adder, name chat_account, string permission, string 
     
     //require auth adder or self.
 
-    chats_table chats(get_self(), get_self().value);
+    chats1_table chats(get_self(), get_self().value);
     auto itr = chats.find(chat_account.value);
 
     if(itr == chats.end()) 
@@ -91,7 +91,7 @@ void msigchat::delchat(name chat_account)
     check(approval_itr != approvals.end(), "Chat account not found in approvals");
     check(approval_itr->approved_to_delete, "Deletion not approved for this chat");
 
-    chats_table chats(get_self(), get_self().value);
+    chats1_table chats(get_self(), get_self().value);
     auto chat_itr = chats.find(chat_account.value);
     check(chat_itr != chats.end(), "Chat account not found");
     chats.erase(chat_itr);
@@ -117,7 +117,7 @@ void msigchat::pinmessage(name user, name community, uint64_t message_id)
         require_auth(_self); // Ensure that the action is executed by the user
 
         // Access the messages table
-        messages_tb messages(get_self(), community.value);
+        messages2_tb messages(get_self(), community.value);
         auto msg_itr = messages.find(message_id);
         check(msg_itr != messages.end(), "Message not found"); // Ensure the message exists
 
@@ -176,7 +176,7 @@ void msigchat::sendmsg(string message, name user, name chat_account, string repl
     
     check(message.size() > 0 && message.size() < 5000, "Invalid message length"); // Validate message length
 
-    messages_tb messages(get_self(), chat_account.value); // Access the messages table scoped by chat_account
+    messages2_tb messages(get_self(), chat_account.value); // Access the messages table scoped by chat_account
     messages.emplace(_self, [&](auto& row) {
         row.id = messages.available_primary_key(); // Automatically generate a unique ID for the message
         row.message = message; // Set the message content
@@ -198,7 +198,7 @@ void msigchat::cleardata() {
 
     // Loop through each community and clear data
     for (const auto& community : communities) {
-        messages_tb messages(_self, community.value);
+        messages2_tb messages(_self, community.value);
 
         // Delete each entry in the table
         auto itr = messages.begin();
@@ -212,7 +212,7 @@ void msigchat::delmessage(name user, uint64_t message_id, name chat_account)
 {
     require_auth_either(user, _self);
 
-    messages_tb messages(get_self(), chat_account.value);
+    messages2_tb messages(get_self(), chat_account.value);
     auto msg_itr = messages.find(message_id);
     check(msg_itr != messages.end(), "Message not found");
     check(msg_itr->user == user, "Only the author can delete this message");
@@ -224,7 +224,7 @@ void msigchat::delmessage(name user, uint64_t message_id, name chat_account)
 void msigchat::addemoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account) {
     require_auth(_self);
 
-    messages_tb messages(get_self(), chat_account.value);
+    messages2_tb messages(get_self(), chat_account.value);
     auto msg_itr = messages.find(message_id);
     check(msg_itr != messages.end(), "Message not found");
 
@@ -279,7 +279,7 @@ void msigchat::saveproposal(name proposer, name community, name proposal_name, c
 void msigchat::rememoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account) {
     require_auth(_self); // Ensure that the action is executed by the user
 
-    messages_tb messages(get_self(), chat_account.value); // Access the messages table scoped by chat_account
+    messages2_tb messages(get_self(), chat_account.value); // Access the messages table scoped by chat_account
     auto msg_itr = messages.find(message_id); // Find the message by message_id
     check(msg_itr != messages.end(), "Message not found"); // Ensure the message exists
 
@@ -322,7 +322,7 @@ void msigchat::delmessages(name chat_account, uint16_t number_of_messages)
     check(approval_itr != approvals.end(), "Chat account not found in approvals");
     check(approval_itr->approved_to_delete, "Deletion not approved for this chat");
 
-    messages_tb messages(get_self(), chat_account.value);
+    messages2_tb messages(get_self(), chat_account.value);
 
     for (int i = 0; i < number_of_messages; i++) 
     {
@@ -375,7 +375,7 @@ void msigchat::require_auth_either(name user1, name user2) {
 void msigchat::addemoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account) {
     require_auth(_self);
 
-    messages_tb messages(get_self(), chat_account.value);
+    messages2_tb messages(get_self(), chat_account.value);
     auto msg_itr = messages.find(message_id);
     check(msg_itr != messages.end(), "Message not found");
 
@@ -411,7 +411,7 @@ void msigchat::migrate() {
     for (const auto& community : communities) {
         // Access the old and new tables scoped by the community
         messages_table old_messages(_self, community.value);
-        messages_tb new_messages(_self, community.value);
+        messages2_tb new_messages(_self, community.value);
 
         // Copy all old message IDs to a vector
         vector<uint64_t> ids;

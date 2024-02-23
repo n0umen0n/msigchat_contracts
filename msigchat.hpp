@@ -27,7 +27,7 @@ public:
 
         uint64_t primary_key() const { return chat_account.value; }
     };
-    typedef multi_index<"chats1"_n, chats1> chats_table;
+    typedef multi_index<"chats1"_n, chats1> chats1_table;
 
     TABLE profile {
         name user;
@@ -55,7 +55,7 @@ public:
 
         uint64_t primary_key() const { return id; }
     };
-    typedef multi_index<"messagestb2"_n, messagestb2> messages_tb;
+    typedef multi_index<"messagestb2"_n, messagestb2> messages2_tb;
 
 
     TABLE locproposal {
