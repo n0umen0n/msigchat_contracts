@@ -4,7 +4,29 @@
     "types": [],
     "structs": [
         {
-            "name": "chats",
+            "name": "addemoji",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "chats1",
             "base": "",
             "fields": [
                 {
@@ -25,6 +47,10 @@
                 },
                 {
                     "name": "community_background_img_url",
+                    "type": "string"
+                },
+                {
+                    "name": "community_name",
                     "type": "string"
                 }
             ]
@@ -115,25 +141,59 @@
             ]
         },
         {
-            "name": "messages",
+            "name": "emoji_reaction",
             "base": "",
             "fields": [
                 {
-                    "name": "id",
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "count",
                     "type": "uint64"
                 },
                 {
-                    "name": "message",
+                    "name": "users",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "locproposal",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                },
+                {
+                    "name": "packed_transaction",
+                    "type": "bytes"
+                },
+                {
+                    "name": "title",
                     "type": "string"
                 },
                 {
-                    "name": "user",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "proposer",
                     "type": "name"
                 }
             ]
         },
         {
-            "name": "messagestb",
+            "name": "messagestb2",
             "base": "",
             "fields": [
                 {
@@ -151,13 +211,72 @@
                 {
                     "name": "message_time",
                     "type": "time_point_sec"
+                },
+                {
+                    "name": "emojis",
+                    "type": "emoji_reaction[]"
+                },
+                {
+                    "name": "replied_to",
+                    "type": "string"
                 }
             ]
         },
         {
-            "name": "migrate",
+            "name": "pinmessage",
             "base": "",
-            "fields": []
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "pinmessage5",
+            "base": "",
+            "fields": [
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "pinned_message",
+                    "type": "string"
+                },
+                {
+                    "name": "user_who_pinned",
+                    "type": "name"
+                },
+                {
+                    "name": "user_who_created_message",
+                    "type": "name"
+                },
+                {
+                    "name": "message_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "pin_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "emojis",
+                    "type": "emoji_reaction[]"
+                }
+            ]
         },
         {
             "name": "profile",
@@ -182,20 +301,54 @@
             ]
         },
         {
-            "name": "sendmessage",
+            "name": "rememoji",
             "base": "",
             "fields": [
-                {
-                    "name": "message",
-                    "type": "string"
-                },
                 {
                     "name": "user",
                     "type": "name"
                 },
                 {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
                     "name": "chat_account",
                     "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "saveproposal",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposer",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                },
+                {
+                    "name": "packed_transaction",
+                    "type": "bytes"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
                 }
             ]
         },
@@ -214,6 +367,10 @@
                 {
                     "name": "chat_account",
                     "type": "name"
+                },
+                {
+                    "name": "replied_to",
+                    "type": "string"
                 }
             ]
         },
@@ -243,6 +400,10 @@
                 },
                 {
                     "name": "community_background_img_url",
+                    "type": "string"
+                },
+                {
+                    "name": "community_name",
                     "type": "string"
                 }
             ]
@@ -278,9 +439,32 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "unpinmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                }
+            ]
         }
     ],
     "actions": [
+        {
+            "name": "addemoji",
+            "type": "addemoji",
+            "ricardian_contract": ""
+        },
         {
             "name": "cleardata",
             "type": "cleardata",
@@ -312,13 +496,18 @@
             "ricardian_contract": ""
         },
         {
-            "name": "migrate",
-            "type": "migrate",
+            "name": "pinmessage",
+            "type": "pinmessage",
             "ricardian_contract": ""
         },
         {
-            "name": "sendmessage",
-            "type": "sendmessage",
+            "name": "rememoji",
+            "type": "rememoji",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "saveproposal",
+            "type": "saveproposal",
             "ricardian_contract": ""
         },
         {
@@ -340,12 +529,17 @@
             "name": "signin",
             "type": "signin",
             "ricardian_contract": ""
+        },
+        {
+            "name": "unpinmessage",
+            "type": "unpinmessage",
+            "ricardian_contract": ""
         }
     ],
     "tables": [
         {
-            "name": "chats",
-            "type": "chats",
+            "name": "chats1",
+            "type": "chats1",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
@@ -358,15 +552,22 @@
             "key_types": []
         },
         {
-            "name": "messages",
-            "type": "messages",
+            "name": "locproposal",
+            "type": "locproposal",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
         },
         {
-            "name": "messagestb",
-            "type": "messagestb",
+            "name": "messagestb2",
+            "type": "messagestb2",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "pinmessage5",
+            "type": "pinmessage5",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

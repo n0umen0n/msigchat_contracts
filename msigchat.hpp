@@ -17,16 +17,17 @@ CONTRACT msigchat : public contract
 {
 public:
 
-    TABLE chats {
+    TABLE chats1 {
         name chat_account;
         string permission;
         string description;
         string community_profile_img_url;
         string community_background_img_url;
+        string community_name;
 
         uint64_t primary_key() const { return chat_account.value; }
     };
-    typedef multi_index<"chats"_n, chats> chats_table;
+    typedef multi_index<"chats1"_n, chats1> chats_table;
 
     TABLE profile {
         name user;
@@ -38,24 +39,53 @@ public:
     };
     typedef multi_index<"profile"_n, profile> profile_table;
 
-    TABLE messages {
-        uint64_t id;
-        string message;
-        name user;
-
-        uint64_t primary_key() const { return id; }
+    struct emoji_reaction {
+        uint16_t emoji_id;
+        uint64_t count;
+        vector<name> users; // Added to store the users who left the emoji
     };
-    typedef multi_index<"messages"_n, messages> messages_table;
 
-    TABLE messagestb {
+    TABLE messagestb2 {
         uint64_t id;
         string message;
         name user;
         time_point_sec message_time;
+        vector<emoji_reaction> emojis;
+        string replied_to;
 
         uint64_t primary_key() const { return id; }
     };
-    typedef multi_index<"messagestb"_n, messagestb> messages_tb;
+    typedef multi_index<"messagestb2"_n, messagestb2> messages_tb;
+
+
+    TABLE locproposal {
+            name proposal_name;
+            std::vector<char> packed_transaction;
+            string title;
+            string description;
+            name community;
+            time_point_sec proposal_time;
+            name proposer;
+
+            uint64_t primary_key()const { return proposal_name.value; }
+         };
+
+    typedef multi_index< "locproposal"_n, locproposal > proposals_tb;
+
+    TABLE pinmessage5 {
+            uint64_t message_id;
+            name community;
+            string pinned_message;
+            name user_who_pinned;
+            name user_who_created_message;
+            time_point_sec message_time;
+            time_point_sec pin_time;
+            vector<emoji_reaction> emojis;
+
+            uint64_t primary_key()const { return message_id; }
+         };
+
+    typedef multi_index< "pinmessage5"_n, pinmessage5 > pinmessage_tb;
 
     TABLE delapproval {
         name chat_account;
@@ -68,16 +98,26 @@ public:
 
     ACTION setprofile(name user, string name_in_chat, string description, string profile_img_url);
     ACTION delprofile(name user);
-    ACTION setchat(name adder, name chat_account, string permission, string description, string community_profile_img_url, string community_background_img_url);
+    ACTION setchat(name adder, name chat_account, string permission, string description, string community_profile_img_url, string community_background_img_url, string community_name);
     ACTION delchat(name chat_account);
-    ACTION sendmessage(string message, name user, name chat_account);
-    ACTION sendmsg(string message, name user, name chat_account);
     ACTION delmessage(name user, uint64_t message_id, name chat_account);
     ACTION delmessages(name chat_account, uint16_t number_of_messages);
     ACTION deloffon(name chat_account, bool delon);
-    ACTION migrate();
     ACTION cleardata();
     ACTION signin(string memo);
+    ACTION pinmessage(name user, name community, uint64_t message_id);
+    ACTION saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description);
+    ACTION rememoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account);
+    ACTION addemoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account);
+    ACTION sendmsg(string message, name user, name chat_account,string replied_to);
+    ACTION unpinmessage(name user, name community, uint64_t message_id);
+
+
+
+
+
+ 
+
 
 
 private:
