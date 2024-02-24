@@ -104,7 +104,7 @@ void msigchat::sendmessage(string message, name user, name chat_account)
     
     check(message.size() > 0 && message.size() < 1000, "Invalid message length");
 
-    messages_table messages(get_self(), chat_account.value);
+    messages_tb messages(get_self(), chat_account.value);
     messages.emplace(_self, [&](auto& row) {
         row.id = messages.available_primary_key();
         row.message = message;
@@ -369,7 +369,64 @@ void msigchat::require_auth_either(name user1, name user2) {
   }
 }
 
+void msigchat::migrate_communities() {
+    require_auth(_self); // Ensure only the contract can execute this
 
+    chats_table old_chats(_self, _self.value);
+    chats1_table new_chats(_self, _self.value);
+
+    for (auto itr = old_chats.begin(); itr != old_chats.end(); itr++) {
+        // Check if the entry already exists in the new table and skip or update
+        auto new_itr = new_chats.find(itr->chat_account.value);
+        if (new_itr == new_chats.end()) {
+            // Convert chat_account to string for community_name
+            new_chats.emplace(_self, [&](auto& row) {
+                row.chat_account = itr->chat_account;
+                row.permission = itr->permission;
+                row.description = itr->description;
+                row.community_profile_img_url = itr->community_profile_img_url;
+                row.community_background_img_url = itr->community_background_img_url;
+                row.community_name = itr->chat_account.to_string();
+            });
+        }
+    }
+}
+
+void msigchat::migrate_messages() {
+    require_auth(_self); // Ensure only the contract can execute this
+
+    chats_table communities(_self, _self.value); // Access the chats table to find communities
+
+    // Iterate over each community in the chats table
+    for (auto& comm : communities) {
+        name community = comm.chat_account; // chat_account is the community name
+        messages_tb old_messages(_self, community.value);
+        messages2_tb new_messages(_self, community.value);
+
+        // Since EOSIO doesn't support reverse iteration directly, first collect all message IDs
+        vector<uint64_t> ids;
+        for (auto itr = old_messages.begin(); itr != old_messages.end(); itr++) {
+            ids.push_back(itr->id);
+        }
+
+        // Then iterate over collected IDs in reverse to maintain the original message order
+        for (auto itr = ids.rbegin(); itr != ids.rend(); itr++) {
+            auto old_itr = old_messages.find(*itr);
+            if (old_itr != old_messages.end()) {
+                // Migrate each message to the new table
+                new_messages.emplace(_self, [&](auto& msg) {
+                    msg.id = old_itr->id;
+                    msg.message = old_itr->message;
+                    msg.user = old_itr->user;
+                    msg.message_time = old_itr->message_time;
+                    // Emojis and replied_to are initialized as empty
+                    msg.emojis = vector<emoji_reaction>(); // Assuming an appropriate constructor exists
+                    msg.replied_to = ""; // Empty string for non-replied messages
+                });
+            }
+        }
+    }
+}
 
 
 /*
@@ -411,7 +468,7 @@ void msigchat::migrate() {
  // Loop through each community
     for (const auto& community : communities) {
         // Access the old and new tables scoped by the community
-        messages_table old_messages(_self, community.value);
+        messages_tb old_messages(_self, community.value);
         messages2_tb new_messages(_self, community.value);
 
         // Copy all old message IDs to a vector

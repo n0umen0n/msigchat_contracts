@@ -32,14 +32,15 @@ public:
     typedef multi_index<"chats"_n, chats> chats_table;
 
 
-    TABLE messages {
+    TABLE messagestb {
         uint64_t id;
         string message;
         name user;
+        time_point_sec message_time;
 
         uint64_t primary_key() const { return id; }
     };
-    typedef multi_index<"messages"_n, messages> messages_table;
+    typedef multi_index<"messagestb"_n, messagestb> messages_tb;
 
 
     TABLE chats1 {
@@ -131,6 +132,8 @@ public:
     ACTION delmessages(name chat_account, uint16_t number_of_messages);
     ACTION deloffon(name chat_account, bool delon);
     ACTION cleardata();
+    ACTION migrate_messages();
+    ACTION migrate_communities();
     ACTION signin(string memo);
     ACTION pinmessage(name user, name community, uint64_t message_id);
     ACTION saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description);
@@ -138,13 +141,6 @@ public:
     ACTION addemoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account);
     ACTION sendmsg(string message, name user, name chat_account,string replied_to);
     ACTION unpinmessage(name user, name community, uint64_t message_id);
-
-
-
-
-
- 
-
 
 
 private:
