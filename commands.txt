@@ -4,4 +4,4 @@ cleos -u https://api.wax.alohaeos.com set contract chat /Users/vlad/Desktop/msig
 
 cleos -u https://api.wax.alohaeos.com set contract test.chat /Users/vlad/Desktop/msigchat msigchat.wasm msigchat.abi 
 
-tere, main
+tere

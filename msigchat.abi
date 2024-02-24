@@ -4,7 +4,29 @@
     "types": [],
     "structs": [
         {
-            "name": "chats",
+            "name": "addemoji",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "chats1",
             "base": "",
             "fields": [
                 {
@@ -26,8 +48,17 @@
                 {
                     "name": "community_background_img_url",
                     "type": "string"
+                },
+                {
+                    "name": "community_name",
+                    "type": "string"
                 }
             ]
+        },
+        {
+            "name": "cleardata",
+            "base": "",
+            "fields": []
         },
         {
             "name": "delapproval",
@@ -110,7 +141,59 @@
             ]
         },
         {
-            "name": "messages",
+            "name": "emoji_reaction",
+            "base": "",
+            "fields": [
+                {
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "count",
+                    "type": "uint64"
+                },
+                {
+                    "name": "users",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "locproposal",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                },
+                {
+                    "name": "packed_transaction",
+                    "type": "bytes"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "proposer",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "messagestb2",
             "base": "",
             "fields": [
                 {
@@ -124,6 +207,74 @@
                 {
                     "name": "user",
                     "type": "name"
+                },
+                {
+                    "name": "message_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "emojis",
+                    "type": "emoji_reaction[]"
+                },
+                {
+                    "name": "replied_to",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "pinmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "pinmessage5",
+            "base": "",
+            "fields": [
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "pinned_message",
+                    "type": "string"
+                },
+                {
+                    "name": "user_who_pinned",
+                    "type": "name"
+                },
+                {
+                    "name": "user_who_created_message",
+                    "type": "name"
+                },
+                {
+                    "name": "message_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "pin_time",
+                    "type": "time_point_sec"
+                },
+                {
+                    "name": "emojis",
+                    "type": "emoji_reaction[]"
                 }
             ]
         },
@@ -150,7 +301,59 @@
             ]
         },
         {
-            "name": "sendmessage",
+            "name": "rememoji",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "emoji_id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "saveproposal",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposer",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                },
+                {
+                    "name": "packed_transaction",
+                    "type": "bytes"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "sendmsg",
             "base": "",
             "fields": [
                 {
@@ -164,6 +367,10 @@
                 {
                     "name": "chat_account",
                     "type": "name"
+                },
+                {
+                    "name": "replied_to",
+                    "type": "string"
                 }
             ]
         },
@@ -194,6 +401,10 @@
                 {
                     "name": "community_background_img_url",
                     "type": "string"
+                },
+                {
+                    "name": "community_name",
+                    "type": "string"
                 }
             ]
         },
@@ -218,9 +429,47 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "signin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "unpinmessage",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "message_id",
+                    "type": "uint64"
+                }
+            ]
         }
     ],
     "actions": [
+        {
+            "name": "addemoji",
+            "type": "addemoji",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "cleardata",
+            "type": "cleardata",
+            "ricardian_contract": ""
+        },
         {
             "name": "delchat",
             "type": "delchat",
@@ -247,8 +496,23 @@
             "ricardian_contract": ""
         },
         {
-            "name": "sendmessage",
-            "type": "sendmessage",
+            "name": "pinmessage",
+            "type": "pinmessage",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rememoji",
+            "type": "rememoji",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "saveproposal",
+            "type": "saveproposal",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "sendmsg",
+            "type": "sendmsg",
             "ricardian_contract": ""
         },
         {
@@ -260,12 +524,22 @@
             "name": "setprofile",
             "type": "setprofile",
             "ricardian_contract": ""
+        },
+        {
+            "name": "signin",
+            "type": "signin",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "unpinmessage",
+            "type": "unpinmessage",
+            "ricardian_contract": ""
         }
     ],
     "tables": [
         {
-            "name": "chats",
-            "type": "chats",
+            "name": "chats1",
+            "type": "chats1",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
@@ -278,8 +552,22 @@
             "key_types": []
         },
         {
-            "name": "messages",
-            "type": "messages",
+            "name": "locproposal",
+            "type": "locproposal",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "messagestb2",
+            "type": "messagestb2",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "pinmessage5",
+            "type": "pinmessage5",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
