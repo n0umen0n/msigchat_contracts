@@ -26,6 +26,32 @@
             ]
         },
         {
+            "name": "chats",
+            "base": "",
+            "fields": [
+                {
+                    "name": "chat_account",
+                    "type": "name"
+                },
+                {
+                    "name": "permission",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "community_profile_img_url",
+                    "type": "string"
+                },
+                {
+                    "name": "community_background_img_url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "chats1",
             "base": "",
             "fields": [
@@ -193,6 +219,28 @@
             ]
         },
         {
+            "name": "messagestb",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "message_time",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
             "name": "messagestb2",
             "base": "",
             "fields": [
@@ -221,6 +269,16 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "migratecom",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "migratemes",
+            "base": "",
+            "fields": []
         },
         {
             "name": "pinmessage",
@@ -496,6 +554,16 @@
             "ricardian_contract": ""
         },
         {
+            "name": "migratecom",
+            "type": "migratecom",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "migratemes",
+            "type": "migratemes",
+            "ricardian_contract": ""
+        },
+        {
             "name": "pinmessage",
             "type": "pinmessage",
             "ricardian_contract": ""
@@ -538,6 +606,13 @@
     ],
     "tables": [
         {
+            "name": "chats",
+            "type": "chats",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
             "name": "chats1",
             "type": "chats1",
             "index_type": "i64",
@@ -554,6 +629,13 @@
         {
             "name": "locproposal",
             "type": "locproposal",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "messagestb",
+            "type": "messagestb",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

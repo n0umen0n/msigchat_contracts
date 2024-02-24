@@ -56,6 +56,13 @@ public:
     typedef multi_index<"chats1"_n, chats1> chats1_table;
 
 
+    struct emoji_reaction {
+        uint16_t emoji_id;
+        uint64_t count;
+        vector<name> users; // Added to store the users who left the emoji
+    };
+
+
     TABLE messagestb2 {
         uint64_t id;
         string message;
@@ -67,12 +74,6 @@ public:
         uint64_t primary_key() const { return id; }
     };
     typedef multi_index<"messagestb2"_n, messagestb2> messages2_tb;
-
-    struct emoji_reaction {
-        uint16_t emoji_id;
-        uint64_t count;
-        vector<name> users; // Added to store the users who left the emoji
-    };
 
     TABLE profile {
         name user;
@@ -133,8 +134,8 @@ public:
     ACTION delmessages(name chat_account, uint16_t number_of_messages);
     ACTION deloffon(name chat_account, bool delon);
     ACTION cleardata();
-    ACTION migrate_messages();
-    ACTION migrate_communities();
+    ACTION migratemes();
+    ACTION migratecom();
     ACTION signin(string memo);
     ACTION pinmessage(name user, name community, uint64_t message_id);
     ACTION saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description);

@@ -369,7 +369,7 @@ void msigchat::require_auth_either(name user1, name user2) {
   }
 }
 
-void msigchat::migrate_communities() {
+void msigchat::migratecom() {
     require_auth(_self); // Ensure only the contract can execute this
 
     chats_table old_chats(_self, _self.value);
@@ -392,7 +392,7 @@ void msigchat::migrate_communities() {
     }
 }
 
-void msigchat::migrate_messages() {
+void msigchat::migratemes() {
     require_auth(_self); // Ensure only the contract can execute this
 
     chats_table communities(_self, _self.value); // Access the chats table to find communities
