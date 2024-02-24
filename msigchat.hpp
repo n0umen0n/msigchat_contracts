@@ -38,14 +38,14 @@ public:
     };
     typedef multi_index<"profile"_n, profile> profile_table;
 
-    TABLE messages {
+    TABLE messagestb {
         uint64_t id;
         string message;
         name user;
 
         uint64_t primary_key() const { return id; }
     };
-    typedef multi_index<"messages"_n, messages> messages_table;
+    typedef multi_index<"messagestb"_n, messagestb> messages_table;
 
     TABLE delapproval {
         name chat_account;
