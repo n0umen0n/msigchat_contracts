@@ -167,6 +167,20 @@
             ]
         },
         {
+            "name": "delprop",
+            "base": "",
+            "fields": [
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "emoji_reaction",
             "base": "",
             "fields": [
@@ -185,7 +199,21 @@
             ]
         },
         {
-            "name": "locproposal",
+            "name": "execprop",
+            "base": "",
+            "fields": [
+                {
+                    "name": "community",
+                    "type": "name"
+                },
+                {
+                    "name": "proposal_name",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "locproposal1",
             "base": "",
             "fields": [
                 {
@@ -215,6 +243,14 @@
                 {
                     "name": "proposer",
                     "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "executed",
+                    "type": "bool"
                 }
             ]
         },
@@ -407,6 +443,10 @@
                 {
                     "name": "description",
                     "type": "string"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
                 }
             ]
         },
@@ -554,6 +594,16 @@
             "ricardian_contract": ""
         },
         {
+            "name": "delprop",
+            "type": "delprop",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "execprop",
+            "type": "execprop",
+            "ricardian_contract": ""
+        },
+        {
             "name": "migratecom",
             "type": "migratecom",
             "ricardian_contract": ""
@@ -627,8 +677,8 @@
             "key_types": []
         },
         {
-            "name": "locproposal",
-            "type": "locproposal",
+            "name": "locproposal1",
+            "type": "locproposal1",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

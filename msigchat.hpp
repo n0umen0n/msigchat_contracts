@@ -87,7 +87,7 @@ public:
 
 
 
-    TABLE locproposal {
+    TABLE locproposal1 {
             name proposal_name;
             std::vector<char> packed_transaction;
             string title;
@@ -95,11 +95,13 @@ public:
             name community;
             time_point_sec proposal_time;
             name proposer;
+            name creator;
+            bool executed;
 
             uint64_t primary_key()const { return proposal_name.value; }
          };
 
-    typedef multi_index< "locproposal"_n, locproposal > proposals_tb;
+    typedef multi_index< "locproposal1"_n, locproposal1 > proposals_tb;
 
     TABLE pinmessage5 {
             uint64_t message_id;
@@ -138,11 +140,15 @@ public:
     ACTION migratecom();
     ACTION signin(string memo);
     ACTION pinmessage(name user, name community, uint64_t message_id);
-    ACTION saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description);
+    ACTION saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description, const name& creator);
     ACTION rememoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account);
     ACTION addemoji(name user, uint64_t message_id, uint16_t emoji_id, name chat_account);
     ACTION sendmsg(string message, name user, name chat_account,string replied_to);
     ACTION unpinmessage(name user, name community, uint64_t message_id);
+    ACTION execprop(name community, name proposal_name);
+    ACTION delprop(name community, name proposal_name);
+
+
 
 
 private:

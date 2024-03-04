@@ -248,7 +248,7 @@ void msigchat::addemoji(name user, uint64_t message_id, uint16_t emoji_id, name 
     });
 }
 
-void msigchat::saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description) {
+void msigchat::saveproposal(name proposer, name community, name proposal_name, const std::vector<char>& packed_transaction, const string& title, const string& description, const name& creator) {
     require_auth(_self); // Ensure the proposer is authorized to create or update a proposal
 
     proposals_tb proposals(get_self(), community.value); // Access the proposals table scoped by community
@@ -256,7 +256,7 @@ void msigchat::saveproposal(name proposer, name community, name proposal_name, c
 
     if (prop_itr == proposals.end()) {
         // If the proposal does not exist, create a new entry
-        proposals.emplace(proposer, [&](auto& p) {
+        proposals.emplace(_self, [&](auto& p) {
             p.proposal_name = proposal_name;
             p.packed_transaction = packed_transaction;
             p.title = title;
@@ -264,15 +264,44 @@ void msigchat::saveproposal(name proposer, name community, name proposal_name, c
             p.community = community;
             p.proposal_time = current_time_point();
             p.proposer = proposer;
+            p.creator = creator;
+            p.executed = 0;
 
         });
     } else {
         // If the proposal already exists, update its details
-        proposals.modify(prop_itr, same_payer, [&](auto& p) {
+        proposals.modify(prop_itr, _self, [&](auto& p) {
             p.title = title;
             p.description = description;
         });
     }
+}
+
+void msigchat::execprop(name community, name proposal_name) {
+    //require_auth(_self); // Ensure the proposer is authorized to create or update a proposal
+
+    proposals_tb proposals(get_self(), community.value); // Access the proposals table scoped by community
+    auto prop_itr = proposals.find(proposal_name.value); // Find the proposal by name
+
+    check(prop_itr != proposals.end(), "Proposal does not exist.");
+
+    proposals.modify(prop_itr, _self, [&](auto& p) {
+    p.executed = 1;
+        });
+}
+
+void msigchat::delprop(name community, name proposal_name) {
+    // Access the proposals table scoped by community
+    proposals_tb proposals(get_self(), community.value);
+    auto prop_itr = proposals.find(proposal_name.value); // Find the proposal by name
+
+    check(prop_itr != proposals.end(), "Proposal does not exist.");
+
+    // Ensure that this action is authorized by the creator of the proposal
+    require_auth(prop_itr->creator);
+
+    // After successful authorization check, erase the proposal
+    proposals.erase(prop_itr);
 }
 
 
